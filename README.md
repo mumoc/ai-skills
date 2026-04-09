@@ -13,9 +13,11 @@ cd ~/Projects/ai-skills
 
 This will:
 
-- Symlink `~/.ai-skills/AI.md` → `global/AI.md`
-- Symlink `~/.ai-skills/settings.json` → `global/settings.json`
+- Symlink `global/AGENTS.md` → `~/.ai-skills/AGENTS.md`, `~/.claude/CLAUDE.md`, `~/.gemini/GEMINI.md`
+- Symlink `global/claude/settings.json` → `~/.claude/settings.json` and `~/.ai-skills/settings.json`
 - Copy all skills from `skills/` into `~/.ai-skills/skills/`
+
+A single `AGENTS.md` source is symlinked to each tool's expected location so Claude Code, Gemini CLI, and OpenAI Codex all read the same global rules.
 
 Existing files are backed up before being replaced (`.bak` suffix).
 
@@ -33,10 +35,10 @@ Pulls the latest changes and re-runs the bootstrap.
 
 | Path | Purpose |
 |---|---|
-| `global/AI.md` | Global rules, conventions, and all skill registrations |
-| `global/settings.json` | Allowed bash commands, hooks, MCP server config |
+| `global/AGENTS.md` | Global rules, conventions, and all skill registrations (tool-agnostic) |
+| `global/claude/settings.json` | Claude Code: allowed bash commands, hooks, MCP server config |
 | `skills/` | All skills installed into `~/.ai-skills/skills/` |
-| `templates/AI.md` | Starter template for per-project `AI.md` files |
+| `templates/AGENTS.md` | Starter template for per-project `AGENTS.md` files |
 | `docs/` | MCP setup and other operational guides |
 
 ---
@@ -282,7 +284,7 @@ export GITHUB_PERSONAL_ACCESS_TOKEN=...
 
 ## Per-project setup
 
-Each repo gets its own `AI.md`. Use `templates/AI.md` as the starting point.
+Each repo gets its own `AGENTS.md`. Use `templates/AGENTS.md` as the starting point.
 
 Required fields:
 - Stack and local port
@@ -290,6 +292,14 @@ Required fields:
 - `/verify` definition (lint + test commands)
 - Architecture overview
 - Performance-sensitive areas
+
+To support all tools from a single file, optionally add symlinks in the project root:
+
+```bash
+ln -s AGENTS.md CLAUDE.md   # Claude Code
+ln -s AGENTS.md GEMINI.md   # Gemini CLI
+# OpenAI Codex reads AGENTS.md directly — no symlink needed
+```
 
 For agentic workflows, run the `setup` skill first to generate `context/` grounding
 documents. Engineering-workflow will use them automatically during analysis.
