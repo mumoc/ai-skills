@@ -26,14 +26,6 @@ Conditions (all must pass):
 - No `[NEEDS INPUT: ...]` gaps exist in `context/domain_glossary.md` for entities
   referenced by the current ticket.
 
-Failure action:
-```
-GATE-S1 FAILED: Context is missing or stale.
-Reason: {specific condition that failed}
-Required: Run the setup skill before proceeding.
-  → setup skill: ~/.claude/skills/setup/SKILL.md
-```
-
 Recovery: run setup skill, then re-evaluate this gate.
 
 ---
@@ -46,16 +38,6 @@ Recovery: run setup skill, then re-evaluate this gate.
 Conditions (all must pass):
 - Ticket has at least one identifiable actor or subject.
 - Ticket has at least one observable outcome or acceptance signal.
-- Ticket is not a duplicate of another ticket currently in the pipeline state.
-
-Failure action:
-```
-GATE-S2 FAILED: Ticket does not meet minimum requirements for analysis.
-Missing: {list what is absent}
-Required: {one of}
-  → Enrich the ticket with the missing fields, then re-run.
-  → Clarify with the user what the expected outcome is.
-```
 
 Recovery: human provides missing fields, re-run extract stage, re-evaluate gate.
 
@@ -72,17 +54,34 @@ Conditions (all must pass):
   or explicitly accepted each critical item.
 - Explicit user approval was received for the action path.
 
-Failure action:
-```
-GATE-S3 FAILED: Unresolved critical issues block planning.
-Critical issues:
-  - {issue}
-  - {issue}
-Required: Resolve these issues before a plan can be produced.
-  → Trigger GATE-H2 to surface them to the user.
-```
-
 Recovery: human resolves critical issues, re-evaluate this gate.
+
+---
+
+### GATE-S3.5: Quality approval (Reviewer)
+
+**Position:** Execute → Validate.
+**Blocks:** Final validation and delivery.
+
+Conditions (all must pass):
+- Reviewer agent status is `pass`.
+- No violations with `severity: strict` exist in the reviewer output.
+- All `strict` violations from previous attempts have been addressed in the current diff.
+
+Recovery: loop back to implementation to fix style/TDD/doc violations.
+
+---
+
+### GATE-S3.7: Security approval (Security)
+
+**Position:** Execute → Validate.
+**Blocks:** Final validation and delivery.
+
+Conditions (all must pass):
+- Security agent status is `pass`.
+- No risks with `severity: critical` or `severity: high` exist in the security output.
+
+Recovery: loop back to implementation to address security vulnerabilities.
 
 ---
 
@@ -95,15 +94,6 @@ Conditions (all must pass):
 - Validate stage produced no `status: contradiction` items.
 - Verify skill passed clean (no lint violations, no test failures).
 - Explicit user delivery approval was received in the conversation.
-
-Failure action:
-```
-GATE-S4 FAILED: Work is not ready for delivery.
-Reason: {specific condition that failed}
-  → Lint/test failures: fix and re-run verify.
-  → Validation contradictions: loop back to plan stage.
-  → Missing approval: request explicit delivery approval.
-```
 
 Recovery: fix the specific failure, re-evaluate this gate.
 

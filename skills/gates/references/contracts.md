@@ -32,6 +32,13 @@ receives anything.
     ↓  GATE-S3 (strict) — plan approval (after merge)
 [Plan]
     ↓  GATE-W3 (soft)   — partial coverage
+[Execute (TDD)]
+    ↓  
+[Reviewer]         [Security]            ← parallel implementation review
+    ↓                   ↓
+    └──────── merge ────┘
+    ↓  GATE-S3.5 (strict) — quality approval (Reviewer)
+    ↓  GATE-S3.7 (strict) — security approval (Security)
 [Validate]
     ↓  GATE-W4 (soft)   — documentation gap
     ↓  GATE-S4 (strict) — delivery approval
@@ -138,9 +145,7 @@ Plan requires: merged critique with no unresolved critical issues and explicit a
 
 ---
 
-### Plan → Validate
-
-**Gate:** GATE-W3 (soft)
+### Plan → Execute (TDD)
 
 Plan must produce:
 ```json
@@ -164,10 +169,60 @@ Plan must produce:
 }
 ```
 
-If any task has `coverage: partial` and `deferred_reason` is null: GATE-W3 triggers.
-Deferred items without explicit reason are treated as accidental gaps, not intentional scope decisions.
+---
 
-Validate requires: full plan with coverage mapped to acceptance criteria.
+### Execute → Reviewer + Security (parallel)
+
+**Gate:** GATE-S3.5 (strict), GATE-S3.7 (strict)
+
+Execute must produce:
+- A set of commits (Red, Green, Refactor).
+- A final diff of all changes.
+
+Reviewer must produce:
+```json
+{
+  "status": "pass | fail",
+  "violations": [
+    {
+      "severity": "strict | soft",
+      "category": "style | tdd | docs | design",
+      "location": "file:line",
+      "description": "string",
+      "correction": "string"
+    }
+  ],
+  "recommendation": "approve | fix"
+}
+```
+
+Security must produce:
+```json
+{
+  "status": "pass | fail",
+  "risks": [
+    {
+      "severity": "critical | high | medium | low",
+      "category": "injection | secrets | privacy | logic",
+      "location": "file:line",
+      "description": "string",
+      "impact": "string"
+    }
+  ],
+  "recommendation": "proceed | block"
+}
+```
+
+---
+
+### Reviewer + Security → Validate
+
+**Gate:** GATE-S3.5 (strict), GATE-S3.7 (strict)
+
+If Reviewer status is `fail` and any violation is `strict`: GATE-S3.5 fails.
+If Security status is `fail` and any risk is `critical | high`: GATE-S3.7 fails.
+
+Validate requires: implementation that has passed both quality and security checks.
 
 ---
 
@@ -201,17 +256,3 @@ If `verify_result: fail`: GATE-S4 fails.
 If no blocking issues and explicit delivery approval received: GATE-S4 passes.
 
 Deliver requires: clean validation, clean verify, explicit delivery approval.
-
----
-
-## Parallel stage coordination
-
-When Challenge and Risk Assessment run in parallel:
-
-- Both receive the same analysis output snapshot at the time of dispatch.
-- Neither receives the other's output during execution.
-- Orchestrator waits for both to complete before running the merge.
-- Merge detects conflicts: issues that appear in both outputs are deduplicated.
-  If severity differs between sources, use the higher severity.
-- Merge agent (or orchestrator merge logic) produces a single `critique` object.
-- GATE-S3 evaluates the merged output, not the individual outputs.
