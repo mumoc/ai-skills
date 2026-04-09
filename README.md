@@ -301,5 +301,15 @@ ln -s AGENTS.md GEMINI.md   # Gemini CLI
 # OpenAI Codex reads AGENTS.md directly — no symlink needed
 ```
 
+**Making skills available to Codex** — Codex doesn't expand `~` when following file paths,
+so skills must be reachable via a project-relative path. Run once per repo:
+
+```bash
+~/Projects/ai-skills/scripts/link-skills.sh
+```
+
+This creates `.agents/skills/ → ~/.ai-skills/skills/` and adds `.agents/` to `.gitignore`.
+Reference skills in `AGENTS.md` as `.agents/skills/<name>/SKILL.md`.
+
 For agentic workflows, run the `setup` skill first to generate `context/` grounding
 documents. Engineering-workflow will use them automatically during analysis.

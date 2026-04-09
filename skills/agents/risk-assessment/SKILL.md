@@ -1,6 +1,6 @@
 ---
 name: risk-assessment
-description: Third pipeline agent, runs in parallel with Challenger. Technical risk lens — evaluates the ticket and analysis for implementation risks: performance, data integrity, security, system boundaries, and operational concerns. Complements the Challenger's business/product lens. Does not propose solutions.
+description: "Third pipeline agent, runs in parallel with Challenger. Technical risk lens — evaluates the ticket and analysis for implementation risks: performance, data integrity, security, system boundaries, and operational concerns. Complements the Challenger's business/product lens. Does not propose solutions."
 ---
 
 # Risk Assessment
