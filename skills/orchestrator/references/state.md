@@ -9,7 +9,7 @@ Loaded by the `orchestrator` skill to manage pipeline state for specific tasks.
 To support multiple parallel workflows, state is isolated per task. Each task (usually
 mapped to a Jira ticket) has its own state file and its own git branch.
 
-**Storage Location:** `.claude/tasks/{task_id}/state.json`
+**Storage Location:** `.ai/tasks/{task_id}/state.json`
 
 The orchestrator manages these files and ensures the active task matches the current
 git branch before performing any implementation work.

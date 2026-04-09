@@ -18,7 +18,7 @@ Read sources in this order. Stop adding sources for a namespace once coverage is
 | Priority | Source | What to extract |
 |---|---|---|
 | 1 | Namespace `README.md` | Domain concept, business rules, constraints, terminology |
-| 2 | Project `CLAUDE.md` | Stack, architecture, key patterns, performance notes |
+| 2 | Project `AI.md` | Stack, architecture, key patterns, performance notes |
 | 3 | Schema file | Entity names and relationships (names only, no column details) |
 | 4 | Class-level docblocks | Business rules that drive branching, validation, or fallback |
 

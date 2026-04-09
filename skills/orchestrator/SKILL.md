@@ -47,7 +47,7 @@ isolation by switching to the correct git branch for each task.
 ## Orchestrator responsibilities
 
 **Always the orchestrator's job:**
-- Managing task-isolated state files in `.claude/tasks/`.
+- Managing task-isolated state files in `.ai/tasks/`.
 - **Branch Enforcement**: Ensuring the current branch matches the task before modification.
 - Building agent payloads and evaluating gates.
 - Routing: proceed, loop-back, human pause, or fail.

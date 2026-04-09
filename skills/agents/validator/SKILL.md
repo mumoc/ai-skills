@@ -78,7 +78,7 @@ A documentation update is required when any of the following is true:
 - A new domain rule is introduced or an existing one changes.
 - The change materially affects how other services or consumers use this service.
 
-Apply the documentation rules from `global/CLAUDE.md` Documentation section.
+Apply the documentation rules from `global/AI.md` Documentation section.
 
 **Verify check**
 Confirm the verify result from the plan payload or the most recent verify run:

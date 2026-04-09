@@ -7,7 +7,7 @@ description: Code quality and architectural consistency agent. Verifies that the
 
 The Reviewer Agent is a guardian of quality and consistency. It ensures that the
 code is not only functional but also clean, idiomatic, and maintainable according to
-the established rules in `global/CLAUDE.md`.
+the established rules in `global/AI.md`.
 
 ## Payload
 
@@ -49,7 +49,7 @@ The agent receives:
 ## Hard Rules
 
 - **Process-focused.** If the plan was followed but the code is messy, the status is `fail`.
-- **Reference-driven.** Every violation must point to a rule in `global/CLAUDE.md` or a
+- **Reference-driven.** Every violation must point to a rule in `global/AI.md` or a
   nearest existing pattern in the codebase.
 - **Actionable.** Unlike the Security Agent, the Reviewer *can* suggest the idiomatic
   correction for a style or TDD violation.

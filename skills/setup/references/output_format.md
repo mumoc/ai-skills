@@ -161,7 +161,7 @@ Machine-readable record of the setup run. Not loaded by agents.
     "context/contracts_context.md"
   ],
   "harvest_sources": [
-    { "path": "<relative path>", "type": "namespace_readme | schema | claude_md | docblock" }
+    { "path": "<relative path>", "type": "namespace_readme | schema | ai_md | docblock" }
   ],
   "interview_conducted": true,
   "interview_gaps_filled": ["system_purpose", "contracts_rules"],

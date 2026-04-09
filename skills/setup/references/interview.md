@@ -41,7 +41,7 @@ Before the interview is complete, these four areas must be covered:
 
 Use only the questions relevant to what is missing. Do not ask all of them.
 
-### System purpose (ask if not found in CLAUDE.md or any README)
+### System purpose (ask if not found in AI.md or any README)
 
 > In one or two sentences — what business problem does this system solve?
 > Answer in terms of the people using it, not the technology.

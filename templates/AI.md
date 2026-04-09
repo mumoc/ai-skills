@@ -1,8 +1,8 @@
-# CLAUDE.md
+# AI.md
 
-This file provides guidance to Claude when working with code in this repository.
+This file provides guidance to the Agent when working with code in this repository.
 
-If `CLAUDE.local.md` exists, read it after this file for local-only overrides. `CLAUDE.local.md` should be gitignored.
+If `AI.local.md` exists, read it after this file for local-only overrides. `AI.local.md` should be gitignored.
 
 ## Overview
 
@@ -22,7 +22,7 @@ If `CLAUDE.local.md` exists, read it after this file for local-only overrides. `
 
 ## Commands
 
-List the commands Claude should prefer when working here.
+List the commands the Agent should prefer when working here.
 
 ```bash
 # Setup
@@ -46,7 +46,7 @@ If the repository supports more than one workflow, document both. Example: local
 
 ## Architecture
 
-Document only the parts Claude needs to navigate the codebase safely.
+Document only the parts the Agent needs to navigate the codebase safely.
 
 ```text
 <key-path-1>   # <what lives here>

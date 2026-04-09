@@ -1,6 +1,6 @@
 ---
 name: verify
-description: Run lint and tests before declaring work done. Invoke after every TDD cycle and before any "done" declaration. Reads /verify from the project CLAUDE.md; falls back to stack auto-detection.
+description: Run lint and tests before declaring work done. Invoke after every TDD cycle and before any "done" declaration. Reads /verify from the project AI.md; falls back to stack auto-detection.
 ---
 
 # Verify
@@ -16,7 +16,7 @@ passes clean.
 
 ## Step 1 — Find the verify command
 
-Read the project's `CLAUDE.md`. Look for a `/verify` section or a block that defines the lint
+Read the project's `AI.md`. Look for a `/verify` section or a block that defines the lint
 and test commands explicitly.
 
 If found, run exactly those commands and skip to Step 3.

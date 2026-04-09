@@ -7,7 +7,7 @@ Loaded by the `orchestrator` skill to handle failures, loops, and pipeline repai
 ## Recovery Principles
 
 Recovery is task-isolated. Every failure, loop-back, or human decision is recorded
-within the specific task's `.claude/tasks/{task_id}/state.json`.
+within the specific task's `.ai/tasks/{task_id}/state.json`.
 
 ---
 

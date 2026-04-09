@@ -24,7 +24,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"const fs=require('fs'); const f=process.env.CLAUDE_PROJECT_DIR+'/CLAUDE.md'; if(fs.existsSync(f)){const c=fs.readFileSync(f,'utf8'); if(!c.includes('engineering-workflow')){process.stderr.write('GATE: engineering-workflow skill is not referenced in this project CLAUDE.md. Add it before making code changes.\\n'); process.exit(2);}}\"",
+            "command": "node -e \"const fs=require('fs'); const f=process.env.AI_PROJECT_DIR+'/AI.md'; if(fs.existsSync(f)){const c=fs.readFileSync(f,'utf8'); if(!c.includes('engineering-workflow')){process.stderr.write('GATE: engineering-workflow skill is not referenced in this project AI.md. Add it before making code changes.\\n'); process.exit(2);}}\"",
             "timeout": 5
           }
         ]

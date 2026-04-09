@@ -1,4 +1,4 @@
-# CLAUDE.md — Global Defaults
+# AI.md — Global Defaults
 
 This file provides cross-project behavioral rules. It intentionally contains no company-specific or project-specific content.
 
@@ -163,7 +163,7 @@ Never create a README for a single class. Never repeat per-method detail already
 **Used by the orchestrator only.** Individual agents do not load this skill.
 Defines gate types, conditions, routing logic, and stage contracts for task-isolated agentic pipelines.
 
-Skill: `~/.claude/skills/gates/SKILL.md`
+Skill: `~/.ai-skills/skills/gates/SKILL.md`
 
 Load when:
 - Running any multi-stage agentic pipeline.
@@ -174,11 +174,11 @@ Do not load in individual agent contexts. Gates are orchestrator responsibility.
 
 ### orchestrator
 
-**Task-Isolated Pipeline coordinator.** Owns shared state in `.claude/tasks/`, dispatches
+**Task-Isolated Pipeline coordinator.** Owns shared state in `.ai/tasks/`, dispatches
 agents, evaluates gates, handles parallel execution, and enforces git branch affinity.
 Supports multiple concurrent tasks (start, switch, status).
 
-Skill: `~/.claude/skills/orchestrator/SKILL.md`
+Skill: `~/.ai-skills/skills/orchestrator/SKILL.md`
 
 Load when:
 - Running any full ticket pipeline (extract → analyze → challenge → plan → validate → deliver).
@@ -194,7 +194,7 @@ Do not load in individual agent contexts — orchestrator responsibility only.
 conducts a short business logic interview, and writes grounding documents to `context/`.
 All agents read from `context/` — setup is what makes them accurate.
 
-Skill: `~/.claude/skills/setup/SKILL.md`
+Skill: `~/.ai-skills/skills/setup/SKILL.md`
 
 Run when:
 - Starting an agentic workflow on a repo for the first time.
@@ -209,7 +209,7 @@ The skill checks this automatically.
 **Hard gate.** Use for any task that changes code or tests. Now task-aware.
 Operates on a specific `task_id` and ensures the current git branch is correct.
 
-Skill: `~/.claude/skills/engineering-workflow/SKILL.md`
+Skill: `~/.ai-skills/skills/engineering-workflow/SKILL.md`
 
 Required sequence:
 1. Read the ticket or task description directly — do not rely on a summary.
@@ -230,21 +230,21 @@ the orchestrator manages dispatch.
 
 | Agent | Skill | Role |
 |---|---|---|
-| Extractor | `~/.claude/skills/agents/extractor/SKILL.md` | Structures raw ticket into typed object |
-| Analyzer | `~/.claude/skills/agents/analyzer/SKILL.md` | Interprets intent and maps to domain |
-| Challenger | `~/.claude/skills/agents/challenger/SKILL.md` | Business/product adversarial review |
-| Risk Assessment | `~/.claude/skills/agents/risk-assessment/SKILL.md` | Technical risk review (parallel with Challenger) |
-| Planner | `~/.claude/skills/agents/planner/SKILL.md` | Produces ordered implementation plan |
-| Security | `~/.claude/skills/agents/security/SKILL.md` | Adversarial security review of implementation |
-| Reviewer | `~/.claude/skills/agents/reviewer/SKILL.md` | Style, TDD, and idiomatic quality review |
-| Validator | `~/.claude/skills/agents/validator/SKILL.md` | Final verification before delivery |
+| Extractor | `~/.ai-skills/skills/agents/extractor/SKILL.md` | Structures raw ticket into typed object |
+| Analyzer | `~/.ai-skills/skills/agents/analyzer/SKILL.md` | Interprets intent and maps to domain |
+| Challenger | `~/.ai-skills/skills/agents/challenger/SKILL.md` | Business/product adversarial review |
+| Risk Assessment | `~/.ai-skills/skills/agents/risk-assessment/SKILL.md` | Technical risk review (parallel with Challenger) |
+| Planner | `~/.ai-skills/skills/agents/planner/SKILL.md` | Produces ordered implementation plan |
+| Security | `~/.ai-skills/skills/agents/security/SKILL.md` | Adversarial security review of implementation |
+| Reviewer | `~/.ai-skills/skills/agents/reviewer/SKILL.md` | Style, TDD, and idiomatic quality review |
+| Validator | `~/.ai-skills/skills/agents/validator/SKILL.md` | Final verification before delivery |
 
 ### jira-ticket-planning
 
 Use for all initiative-to-ticket work. Source of truth for ticket structure, classification,
 and sprint placement.
 
-Skill: `~/.claude/skills/jira-ticket-planning/SKILL.md`
+Skill: `~/.ai-skills/skills/jira-ticket-planning/SKILL.md`
 
 Invoke when turning a plan into Jira tickets, classifying or sequencing tickets, or creating
 approved tickets in Jira. Do not apply Jira field structure or classification logic without
@@ -254,16 +254,16 @@ this skill active.
 
 **Hard gate.** Run after every TDD cycle and before any "done" declaration.
 
-Skill: `~/.claude/skills/verify/SKILL.md`
+Skill: `~/.ai-skills/skills/verify/SKILL.md`
 
-Reads `/verify` from the project `CLAUDE.md`. Falls back to stack auto-detection.
+Reads `/verify` from the project `AI.md`. Falls back to stack auto-detection.
 Work is never done until verify passes clean.
 
 ---
 
-## Per-Project CLAUDE.md
+## Per-Project AI.md
 
-Each repo gets its own `CLAUDE.md` checked into the codebase. It must contain:
+Each repo gets its own `AI.md` checked into the codebase. It must contain:
 
 - Stack overview and local port
 - Dev / test / lint commands (with Docker/Make/etc. wrappers)
@@ -278,5 +278,5 @@ Each repo gets its own `CLAUDE.md` checked into the codebase. It must contain:
 
 ## MCP Integrations
 
-MCP servers are configured in `~/.claude/settings.json` (tracked in this bootstrap repo).
-Do not add MCP config directly to project-level CLAUDE.md files.
+MCP servers are configured in `~/.ai-skills/settings.json` (tracked in this bootstrap repo).
+Do not add MCP config directly to project-level AI.md files.

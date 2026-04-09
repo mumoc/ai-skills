@@ -82,7 +82,7 @@ Build an index of the repository before reading any content. Do not read file co
 - All files matching YARD doc patterns (`app/**/*.rb`) — for class-level docblocks.
 - All files matching JSDoc patterns (`src/**/*.{js,ts}`) — for JS/TS projects.
 - All docstring candidates (`**/*.py`) — for Python projects.
-- `CLAUDE.md` at the project root — stack overview and commands.
+- `AI.md` at the project root — stack overview and commands.
 - Schema files: `db/schema.rb`, `*.prisma`, `openapi.yaml`, `openapi.json`, `*.graphql`.
 - Top-level service directories: `app/services/`, `app/workers/`, `app/models/`, or equivalent.
 
@@ -91,7 +91,7 @@ Build an index of the repository before reading any content. Do not read file co
 {
   "readme_files": [...paths],
   "schema_file": "path or null",
-  "claude_md": "path or null",
+  "ai_md": "path or null",
   "service_namespaces": [...top-level dirs under app/services/ or equivalent],
   "model_count": N,
   "stack": "rails | node | python | mixed"
@@ -108,7 +108,7 @@ Read [references/harvest.md](references/harvest.md) for extraction rules.
 
 Process in this order:
 
-1. **Project `CLAUDE.md`** — extract stack, architecture overview, key patterns.
+1. **Project `AI.md`** — extract stack, architecture overview, key patterns.
 2. **Schema file** — extract entity names and relationships (names and associations only,
    not column details).
 3. **Namespace READMEs** — extract domain concept, business rules, and usage from each.

@@ -48,7 +48,7 @@ Load these only when the relevant phase is active:
 
 - **Branch Affinity**: Every task has its own branch `feature/<task_id>`. Never
   implement Task A while on Task B's branch.
-- **State Isolation**: Task state is stored in `.claude/tasks/<task_id>/state.json`.
+- **State Isolation**: Task state is stored in `.ai/tasks/<task_id>/state.json`.
 - **Atomic Commits**: Each TDD cycle (Red, Green, Refactor) must be committed to
   the task branch. This allows the Reviewer agent to verify process discipline.
 
@@ -58,8 +58,8 @@ Create the feature branch, initialise the state file, and load any existing cont
 
 ```bash
 git checkout -b feature/JIRA-123
-mkdir -p .claude/tasks/JIRA-123
-cat > .claude/tasks/JIRA-123/state.json <<'EOF'
+mkdir -p .ai/tasks/JIRA-123
+cat > .ai/tasks/JIRA-123/state.json <<'EOF'
 {
   "task_id": "JIRA-123",
   "branch": "feature/JIRA-123",
@@ -148,8 +148,8 @@ pytest --tb=short --cov
 go test ./...
 
 # 3. Gate summary — print pass/fail per gate from state.json
-node -e "const s=require('./.claude/tasks/${TASK_ID}/state.json'); console.table(s.gates);"
-# or: python3 -c "import json,os; s=json.load(open(f'.claude/tasks/{os.environ[\"TASK_ID\"]}/state.json')); [print(k,v) for k,v in s['gates'].items()]"
+node -e "const s=require('./.ai/tasks/${TASK_ID}/state.json'); console.table(s.gates);"
+# or: python3 -c "import json,os; s=json.load(open(f'.ai/tasks/{os.environ[\"TASK_ID\"]}/state.json')); [print(k,v) for k,v in s['gates'].items()]"
 ```
 
 All lint and test commands must exit 0 before the task advances to Validate.

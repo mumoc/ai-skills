@@ -7,7 +7,7 @@ Loaded by the `orchestrator` skill when preparing to run a stage for a specific 
 ## What dispatch does
 
 Dispatch is how the orchestrator activates an agent for a target `task_id`. It:
-1. Loads the task's state from `.claude/tasks/{task_id}/state.json`.
+1. Loads the task's state from `.ai/tasks/{task_id}/state.json`.
 2. Validates the environment (e.g., git branch) matches the task.
 3. Loads the agent's skill file.
 4. Builds a scoped payload from task state — only what the agent needs.
@@ -21,7 +21,7 @@ Dispatch is how the orchestrator activates an agent for a target `task_id`. It:
 ## Dispatch sequence
 
 ```
-1. Load Task State               → read .claude/tasks/{task_id}/state.json
+1. Load Task State               → read .ai/tasks/{task_id}/state.json
 2. Environment Validation        → for implementation stages, confirm git branch matches
 3. Confirm prerequisites         → all upstream stages complete, no blocking gates
 4. Load agent skill              → read the agent's SKILL.md

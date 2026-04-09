@@ -1,21 +1,21 @@
-# claude-bootstrap
+# ai-skills
 
-Portable Claude Code configuration. Clone once, bootstrap any machine in one command.
+Portable AI Agent configuration. Clone once, bootstrap any machine in one command.
 Provides global rules, permissions, MCP servers, and a full agentic skill suite.
 
 ## Bootstrap a new machine
 
 ```bash
-git clone <this-repo> ~/Projects/claude_bootstrap
-cd ~/Projects/claude_bootstrap
+git clone <this-repo> ~/Projects/ai-skills
+cd ~/Projects/ai-skills
 ./scripts/bootstrap.sh
 ```
 
 This will:
 
-- Symlink `~/.claude/CLAUDE.md` → `global/CLAUDE.md`
-- Symlink `~/.claude/settings.json` → `global/settings.json`
-- Copy all skills from `skills/` into `~/.claude/skills/`
+- Symlink `~/.ai-skills/AI.md` → `global/AI.md`
+- Symlink `~/.ai-skills/settings.json` → `global/settings.json`
+- Copy all skills from `skills/` into `~/.ai-skills/skills/`
 
 Existing files are backed up before being replaced (`.bak` suffix).
 
@@ -33,10 +33,10 @@ Pulls the latest changes and re-runs the bootstrap.
 
 | Path | Purpose |
 |---|---|
-| `global/CLAUDE.md` | Global rules, conventions, and all skill registrations |
+| `global/AI.md` | Global rules, conventions, and all skill registrations |
 | `global/settings.json` | Allowed bash commands, hooks, MCP server config |
-| `skills/` | All skills installed into `~/.claude/skills/` |
-| `templates/CLAUDE.md` | Starter template for per-project `CLAUDE.md` files |
+| `skills/` | All skills installed into `~/.ai-skills/skills/` |
+| `templates/AI.md` | Starter template for per-project `AI.md` files |
 | `docs/` | MCP setup and other operational guides |
 
 ---
@@ -51,14 +51,14 @@ never load either directly.
 | Skill | Purpose |
 |---|---|
 | `gates` | Gate types, conditions, routing logic, and stage contracts |
-| `orchestrator` | Pipeline coordinator — shared state, dispatch, parallel execution, recovery |
+| `orchestrator` | Task-isolated coordinator — shared state, branch affinity, recovery |
 | `setup` | Repo scanner — produces grounding documents consumed by all agents |
 
 ### Workflow skills
 
 | Skill | Purpose |
 |---|---|
-| `engineering-workflow` | Full delivery lifecycle: analyze → plan → TDD → verify → PR |
+| `engineering-workflow` | Task-isolated lifecycle: analyze → plan → TDD → review → PR |
 | `jira-ticket-planning` | Initiative-to-ticket planning, classification, sprint placement |
 | `verify` | Lint + test gate. Work is never done until this passes clean |
 
@@ -73,7 +73,9 @@ Dispatched exclusively by the orchestrator. Each agent does one job.
 | `agents/challenger` | Adversarial business/product review — finds what is wrong |
 | `agents/risk-assessment` | Technical risk review — runs in parallel with challenger |
 | `agents/planner` | Produces TDD-ordered implementation plan with full traceability |
-| `agents/validator` | Verifies plan against ticket before delivery |
+| `agents/security` | Adversarial security review of implementation diff |
+| `agents/reviewer` | Quality and architectural consistency review |
+| `agents/validator` | Verifies implementation against ticket before delivery |
 
 ---
 
@@ -87,7 +89,7 @@ Repository
   ├── namespace READMEs ──┐
   ├── YARD / JSDoc        ├──► [Setup Skill] ──► context/
   ├── schema files        │                        ├── domain_glossary.md
-  └── CLAUDE.md ──────────┘                        ├── {service}_context.md
+  └── AI.md ──────────┘                        ├── {service}_context.md
                                                    └── .setup_manifest.json
 ```
 
@@ -123,13 +125,21 @@ business/product lens     technical lens
                    ▼ (plan approved)
               [Planner] ──GATE-W3──► ordered task list, TDD-first
                    │
-                   ▼
-             [Validator] ──GATE-W4──► coverage + contradiction + doc delta
-                   │
-               GATE-S4 ──► delivery approval
-                   │
-                   ▼
-              [Deliver] ──► push + PR
+                   ▼ (implementation)
+             [Reviewer]          [Security]
+             quality lens        security lens
+                   │                   │
+                   └─────── merge ─────┘
+                             │
+                         GATE-S3.5/7 ──► loop-back if strict violations
+                             │
+                             ▼
+                        [Validator] ──GATE-W4──► coverage + contradiction + doc delta
+                             │
+                         GATE-S4 ──► delivery approval
+                             │
+                             ▼
+                        [Deliver] ──► push + PR
 ```
 
 ---
@@ -152,31 +162,47 @@ HUMAN ──► pipeline pauses. One specific question surfaces to the user.
 
 ### Shared state (orchestrator-owned)
 
-```
-state {
-  stages: {                    ← append-only. outputs never overwritten.
-    extract:  { output, attempts }
-    analyze:  { output, attempts }
-    challenge: { output, attempts }
-    risk_assessment: { output, attempts }
-    merge:    { output }
-    plan:     { output, attempts }
-    validate: { output, attempts }
-  }
-  gates: {
-    history: [...]             ← every gate evaluation recorded
-    active_warnings: [...]     ← accumulate until resolved
-    human_pauses: [...]        ← every human decision recorded
-  }
-  approvals: {
-    plan_approved: bool
-    delivery_approved: bool
+```json
+{
+  "task_id": "JIRA-123",
+  "git_branch": "feature/JIRA-123",
+  "status": "running | paused | failed | complete",
+  "stages": {                    ← append-only.
+    "extract":  { output, attempts },
+    "analyze":  { output, attempts },
+    "challenge": { output, attempts },
+    "risk_assessment": { output, attempts },
+    "merge":    { output },
+    "plan":     { output, attempts },
+    "execute":  { output, attempts },
+    "reviewer": { output, attempts },
+    "security": { output, attempts },
+    "validate": { output, attempts }
+  },
+  "gates": {
+    "history": [...],          ← every gate evaluation recorded
+    "active_warnings": [...],  ← accumulate until resolved
+    "human_pauses": [...]      ← every human decision recorded
+  },
+  "approvals": {
+    "plan_approved": bool,
+    "delivery_approved": bool
   }
 }
 ```
 
-State is append-only so every attempt is preserved. Loop-backs, gate failures,
-and human resolutions are all traceable. No point-in-time information is lost.
+State is isolated per task in `.ai/tasks/{task_id}/state.json`. It is append-only so
+every attempt is preserved. Loop-backs, gate failures, and human resolutions are
+all traceable. No point-in-time information is lost.
+
+### Task Management
+
+The orchestrator enforces environment isolation by switching to the correct git branch
+for each task. Every command must target a specific `task_id`.
+
+- `orchestrator start <task_id>`: Initialize a new task and branch.
+- `orchestrator switch <task_id>`: Switch context and branch to an existing task.
+- `orchestrator status`: List all active tasks and their current pipeline stage.
 
 ---
 
@@ -231,11 +257,11 @@ preserving the full attempt history in state.
 
 1. Create `skills/<skill-name>/SKILL.md` with frontmatter and instructions.
 2. Add references in `skills/<skill-name>/references/` if needed.
-3. Register it in `global/CLAUDE.md` under `## Skills`.
+3. Register it in `global/AI.md` under `## Skills`.
 4. Run `./scripts/bootstrap.sh` to install.
 
 For agent skills, place under `skills/agents/<agent-name>/SKILL.md` and register
-in the agents table in `global/CLAUDE.md`.
+in the agents table in `global/AI.md`.
 
 ---
 
@@ -256,7 +282,7 @@ export GITHUB_PERSONAL_ACCESS_TOKEN=...
 
 ## Per-project setup
 
-Each repo gets its own `CLAUDE.md`. Use `templates/CLAUDE.md` as the starting point.
+Each repo gets its own `AI.md`. Use `templates/AI.md` as the starting point.
 
 Required fields:
 - Stack and local port
