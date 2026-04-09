@@ -1,42 +1,38 @@
 ---
 name: orchestrator
-description: Pipeline coordinator for multi-stage agentic ticket workflows. Owns shared state, dispatches agents, evaluates gates, coordinates parallel execution, and routes between stages. Load this skill when running a full ticket pipeline from extraction through delivery. Do not load in individual agent contexts.
+description: Pipeline coordinator for multi-stage agentic ticket workflows. Owns task-isolated state, dispatches agents, evaluates gates, coordinates parallel execution, and routes between stages. Supports multiple parallel tasks through branch-affinity and isolated state storage. Load this skill when running a full ticket pipeline.
 ---
 
 # Orchestrator
 
-The orchestrator runs the pipeline. It owns shared state, dispatches agents one at a
-time or in parallel, evaluates gates between stages, and routes the pipeline forward,
-backward, or to a human based on gate results.
-
-Individual agents do not know the orchestrator exists. They receive a scoped payload
-and return a structured output. The orchestrator does everything in between.
+The orchestrator runs the pipeline. It owns task-isolated state, dispatches agents,
+evaluates gates, and routes the pipeline based on gate results.
 
 ## References
 
-- [references/state.md](references/state.md) — shared state schema and mutation rules
-- [references/dispatch.md](references/dispatch.md) — how to dispatch agents and build their payloads
+- [references/state.md](references/state.md) — task-isolated state schema and branch affinity
+- [references/dispatch.md](references/dispatch.md) — agent dispatch and scoped payloads
 - [references/parallel.md](references/parallel.md) — parallel execution and merge logic
-- [references/recovery.md](references/recovery.md) — loop-back handling, error recovery, pipeline repair
+- [references/recovery.md](references/recovery.md) — loop-back and human gate handling
 
 ---
 
-## Skills this skill depends on
+## Task Management
 
-Before running any pipeline stage, these skills must be loaded:
+All commands must target a specific `task_id`. The orchestrator ensures environment
+isolation by switching to the correct git branch for each task.
 
-- `gates` skill — for all gate evaluations between stages
-- `setup` skill — already run, `context/` must be current before dispatch begins
-
-Individual agent skills are loaded per-dispatch, not upfront. See
-[references/dispatch.md](references/dispatch.md).
+**Active Task Selection:**
+- `orchestrator start <task_id>`: Initialize a new task and branch.
+- `orchestrator switch <task_id>`: Switch context and branch to an existing task.
+- `orchestrator status`: List all active tasks and their current pipeline stage.
 
 ---
 
 ## Pipeline lifecycle
 
 ```
-1. Pre-flight        → verify setup, load gates skill, initialize state
+1. Pre-flight        → verify task/branch, load gates, initialize/load state
 2. Extract           → dispatch Extractor, evaluate GATE-S2
 3. Analyze           → dispatch Analyzer, evaluate GATE-W2
 4. Parallel branch   → dispatch Challenger + Risk Assessment concurrently
@@ -46,41 +42,25 @@ Individual agent skills are loaded per-dispatch, not upfront. See
 8. Deliver           → dispatch delivery steps after GATE-S4 passes
 ```
 
-At each step: dispatch → receive output → evaluate gate → route.
-Never advance without gate evaluation. Never skip a stage.
-
 ---
 
 ## Orchestrator responsibilities
 
 **Always the orchestrator's job:**
-- Initializing and mutating shared state.
-- Deciding which agent to dispatch next.
-- Building each agent's scoped payload from shared state.
-- Evaluating gates after each stage output.
+- Managing task-isolated state files in `.claude/tasks/`.
+- **Branch Enforcement**: Ensuring the current branch matches the task before modification.
+- Building agent payloads and evaluating gates.
 - Routing: proceed, loop-back, human pause, or fail.
-- Merging parallel agent outputs.
-- Surfacing human gate questions.
-- Recording pipeline history in state.
-
-**Never the orchestrator's job:**
-- Domain reasoning (what does this ticket mean?).
-- Fixing agent output directly (route back to the agent instead).
-- Patching `context/` files (request a setup update instead).
-- Making approval decisions on behalf of the user.
+- Recording pipeline history.
 
 ---
 
 ## Hard rules
 
-- **One gate evaluation per stage transition.** No exceptions, no skips.
-- **Shared state is the only communication channel.** Agents never receive another
-  agent's raw output — only the orchestrator-curated slice from state.
-- **Human gates pause everything.** When GATE-H* fires, the orchestrator stops,
-  surfaces the question, and waits. It does not proceed on a guess.
-- **Loop limit is enforced here.** The orchestrator tracks loop counts in state and
-  converts a third failure into a human gate rather than dispatching again.
-- **Parallel branches are fully isolated.** Agents in parallel never share a write
-  scope or receive each other's in-progress output.
-- **State is append-only during a run.** Completed stage outputs are never overwritten.
-  If a stage is retried, its new output is written to a versioned slot.
+- **No task_id, no action.** Every request must be tied to a specific task.
+- **Branch matches Task.** Implementation stages (Plan/Execute/Deliver) are blocked if
+  the git branch is incorrect.
+- **One gate evaluation per stage transition.** No exceptions.
+- **Shared state is append-only.** Historical outputs are preserved for traceability.
+- **Human gates pause everything.** Proceed only after explicit user resolution.
+- **Loop limit is 2 retries (3 total attempts).** Third failure escalates to human.

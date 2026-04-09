@@ -1,40 +1,54 @@
 # Dispatch Reference
 
-Loaded by the `orchestrator` skill when preparing to run a stage.
+Loaded by the `orchestrator` skill when preparing to run a stage for a specific task.
 
 ---
 
 ## What dispatch does
 
-Dispatch is how the orchestrator activates an agent. It:
-1. Loads the agent's skill file.
-2. Builds a scoped payload from shared state — only what the agent needs.
-3. Hands the payload to the agent.
-4. Receives the agent's output.
-5. Writes the output back to shared state.
-6. Triggers gate evaluation.
-
-The agent sees only its payload. It never sees shared state directly.
+Dispatch is how the orchestrator activates an agent for a target `task_id`. It:
+1. Loads the task's state from `.claude/tasks/{task_id}/state.json`.
+2. Validates the environment (e.g., git branch) matches the task.
+3. Loads the agent's skill file.
+4. Builds a scoped payload from task state — only what the agent needs.
+5. Hands the payload to the agent.
+6. Receives the agent's output.
+7. Writes the output back to task state.
+8. Triggers gate evaluation.
 
 ---
 
 ## Dispatch sequence
 
 ```
-1. Confirm prerequisites         → all upstream stages complete, no blocking gates
-2. Load agent skill              → read the agent's SKILL.md
-3. Build scoped payload          → extract only required fields from state
-4. Set stage status: running     → update state before dispatch
-5. Dispatch agent                → pass payload, await output
-6. Validate output shape         → confirm required fields are present
-7. Write output to state         → set stage status: complete
-8. Evaluate gate                 → load gates skill, run transition gate
-9. Route                         → advance, loop-back, human, or fail
-10. Append history event         → record what happened
+1. Load Task State               → read .claude/tasks/{task_id}/state.json
+2. Environment Validation        → for implementation stages, confirm git branch matches
+3. Confirm prerequisites         → all upstream stages complete, no blocking gates
+4. Load agent skill              → read the agent's SKILL.md
+5. Build scoped payload          → extract only required fields from task state
+6. Set stage status: running     → update task state before dispatch
+7. Dispatch agent                → pass payload, await output
+8. Validate output shape         → confirm required fields are present
+9. Write output to task state    → set stage status: complete, save state.json
+10. Evaluate gate                → load gates skill, run transition gate
+11. Route                        → advance, loop-back, human, or fail
+12. Append history event         → record what happened
 ```
 
-If step 6 fails (output malformed): set stage `status: failed`, do not write to output,
+If step 8 fails (output malformed): set stage `status: failed`, do not write to output,
 trigger loop-back with a shape-error context block.
+
+---
+
+## Implementation Stage Safety
+
+Before dispatching `plan`, `execute`, or `deliver`, the orchestrator MUST verify:
+```bash
+git branch --show-current
+```
+Matches `state.git_branch`. If it doesn't match:
+- If no uncommitted changes exist: `git checkout <state.git_branch>`.
+- If uncommitted changes exist: PAUSE with a Human Gate to resolve the conflict.
 
 ---
 

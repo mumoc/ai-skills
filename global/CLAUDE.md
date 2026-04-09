@@ -161,7 +161,7 @@ Never create a README for a single class. Never repeat per-method detail already
 ### gates
 
 **Used by the orchestrator only.** Individual agents do not load this skill.
-Defines gate types, conditions, routing logic, and stage contracts for agentic pipelines.
+Defines gate types, conditions, routing logic, and stage contracts for task-isolated agentic pipelines.
 
 Skill: `~/.claude/skills/gates/SKILL.md`
 
@@ -174,8 +174,9 @@ Do not load in individual agent contexts. Gates are orchestrator responsibility.
 
 ### orchestrator
 
-**Pipeline coordinator.** Owns shared state, dispatches agents, evaluates gates, handles
-parallel execution, and routes between stages. Load when running a full ticket pipeline.
+**Task-Isolated Pipeline coordinator.** Owns shared state in `.claude/tasks/`, dispatches
+agents, evaluates gates, handles parallel execution, and enforces git branch affinity.
+Supports multiple concurrent tasks (start, switch, status).
 
 Skill: `~/.claude/skills/orchestrator/SKILL.md`
 
@@ -205,8 +206,8 @@ The skill checks this automatically.
 
 ### engineering-workflow
 
-**Hard gate.** Use for any task that changes code or tests — implementation, bug fix, refactor,
-or test writing.
+**Hard gate.** Use for any task that changes code or tests. Now task-aware.
+Operates on a specific `task_id` and ensures the current git branch is correct.
 
 Skill: `~/.claude/skills/engineering-workflow/SKILL.md`
 
@@ -234,7 +235,9 @@ the orchestrator manages dispatch.
 | Challenger | `~/.claude/skills/agents/challenger/SKILL.md` | Business/product adversarial review |
 | Risk Assessment | `~/.claude/skills/agents/risk-assessment/SKILL.md` | Technical risk review (parallel with Challenger) |
 | Planner | `~/.claude/skills/agents/planner/SKILL.md` | Produces ordered implementation plan |
-| Validator | `~/.claude/skills/agents/validator/SKILL.md` | Verifies plan against ticket before delivery |
+| Security | `~/.claude/skills/agents/security/SKILL.md` | Adversarial security review of implementation |
+| Reviewer | `~/.claude/skills/agents/reviewer/SKILL.md` | Style, TDD, and idiomatic quality review |
+| Validator | `~/.claude/skills/agents/validator/SKILL.md` | Final verification before delivery |
 
 ### jira-ticket-planning
 

@@ -1,15 +1,18 @@
 # Shared State Reference
 
-Loaded by the `orchestrator` skill to manage pipeline state.
+Loaded by the `orchestrator` skill to manage pipeline state for specific tasks.
 
 ---
 
-## What shared state is
+## Task-Isolated State
 
-Shared state is the single object the orchestrator maintains for the entire pipeline run.
-It is the only way information flows between stages. Agents never read or write it
-directly — the orchestrator extracts slices for dispatch and writes outputs back after
-each stage completes.
+To support multiple parallel workflows, state is isolated per task. Each task (usually
+mapped to a Jira ticket) has its own state file and its own git branch.
+
+**Storage Location:** `.claude/tasks/{task_id}/state.json`
+
+The orchestrator manages these files and ensures the active task matches the current
+git branch before performing any implementation work.
 
 ---
 
@@ -17,8 +20,9 @@ each stage completes.
 
 ```json
 {
+  "task_id": "<Jira ticket ID or unique slug>",
   "pipeline_id": "<uuid>",
-  "ticket_ref": "<Jira ticket ID or description hash>",
+  "git_branch": "feature/<task_id>",
   "started_at": "<ISO timestamp>",
   "status": "running | paused | failed | complete",
 
@@ -108,8 +112,13 @@ each stage completes.
 
 ## Mutation rules
 
-**Initialize once.** State is created at pipeline start with all stages set to `pending`.
-Never re-initialize mid-run.
+**Initialize per task.** When a new task starts, the orchestrator creates its directory
+and `state.json`. `git_branch` is derived from `task_id`.
+
+**Branch Enforcement.** Before any stage that modifies the filesystem (Plan, Execute,
+Verify, Deliver), the orchestrator MUST verify that the current git branch matches
+`state.git_branch`. If it doesn't, it must either switch branches or pause for human
+intervention.
 
 **Stage outputs are append-only.** Once a stage writes its output to `stages.{stage}.output`,
 that slot is not overwritten. If a stage is retried, increment `attempts` and write the new
@@ -129,6 +138,10 @@ when the user provides explicit confirmation. They are never reset to `false` du
 ---
 
 ## State access patterns
+
+**Task Selection:**
+The user specifies the `task_id`. The orchestrator loads the corresponding `state.json`.
+If no `task_id` is provided, the orchestrator should list active tasks and ask for selection.
 
 **Reading for dispatch:**
 The orchestrator extracts only the fields a specific agent needs. It never passes the
