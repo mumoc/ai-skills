@@ -1,6 +1,7 @@
 ---
 name: analyzer
 description: Second pipeline agent. Receives the structured ticket and grounding documents. Interprets primary intent, maps acceptance criteria to domain rules, identifies gaps and implicit assumptions, and produces an analysis object consumed by the Challenger and Risk Assessment agents in parallel.
+model_tier: balanced
 ---
 
 # Analyzer

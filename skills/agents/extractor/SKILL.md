@@ -1,6 +1,7 @@
 ---
 name: extractor
 description: First pipeline agent. Receives a raw ticket and produces a structured ticket object the rest of the pipeline consumes. Identifies actors, acceptance signals, ambiguous terms, and scope boundaries from raw text. Does not interpret intent — only extracts and structures what is explicitly stated.
+model_tier: fast
 ---
 
 # Extractor

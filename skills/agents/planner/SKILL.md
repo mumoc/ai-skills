@@ -1,6 +1,7 @@
 ---
 name: planner
 description: Fourth pipeline agent. Receives the structured ticket, analysis, and merged critique. Produces an ordered implementation plan with tasks mapped to acceptance criteria, dependencies explicit, and all critique issues accounted for. The plan is what the engineering-workflow skill implements.
+model_tier: powerful
 ---
 
 # Planner

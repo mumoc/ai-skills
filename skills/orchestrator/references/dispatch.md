@@ -25,15 +25,35 @@ Dispatch is how the orchestrator activates an agent for a target `task_id`. It:
 2. Environment Validation        → for implementation stages, confirm git branch matches
 3. Confirm prerequisites         → all upstream stages complete, no blocking gates
 4. Load agent skill              → read the agent's SKILL.md
-5. Build scoped payload          → extract only required fields from task state
-6. Set stage status: running     → update task state before dispatch
-7. Dispatch agent                → pass payload, await output
-8. Validate output shape         → confirm required fields are present
-9. Write output to task state    → set stage status: complete, save state.json
-10. Evaluate gate                → load gates skill, run transition gate
-11. Route                        → advance, loop-back, human, or fail
-12. Append history event         → record what happened
+5. Resolve model                 → read model_tier from SKILL.md frontmatter, map to model ID
+6. Build scoped payload          → extract only required fields from task state
+7. Set stage status: running     → update task state before dispatch
+8. Dispatch agent                → pass payload and resolved model, await output
+9. Validate output shape         → confirm required fields are present
+10. Write output to task state   → set stage status: complete, save state.json
+11. Evaluate gate                → load gates skill, run transition gate
+12. Route                        → advance, loop-back, human, or fail
+13. Append history event         → record what happened (include model used)
 ```
+
+### Model resolution (step 5)
+
+Read `model_tier` from the agent SKILL.md frontmatter. Look up the model ID from the
+tier table in `AGENTS.md` for the active tool. If a `model_overrides` block exists in
+the project's `AGENTS.md`, it takes precedence over the global tier defaults.
+
+```
+model_tier: fast | balanced | powerful
+             ↓
+tier table in AGENTS.md  →  concrete model ID for active tool
+             ↓
+model_overrides in project AGENTS.md  →  overrides tier default if present
+```
+
+If `model_tier` is absent from the SKILL.md, default to `balanced`.
+
+Record the resolved model in the history event at step 13 so model selection is
+traceable across pipeline runs.
 
 If step 8 fails (output malformed): set stage `status: failed`, do not write to output,
 trigger loop-back with a shape-error context block.

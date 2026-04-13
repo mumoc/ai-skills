@@ -1,6 +1,7 @@
 ---
 name: challenger
 description: Third pipeline agent, runs in parallel with Risk Assessment. Adversarial role — challenges the ticket's assumptions, acceptance criteria, and scope from a business and product perspective. Finds what is wrong, missing, or contradictory before planning begins. Does not propose solutions.
+model_tier: powerful
 ---
 
 # Challenger

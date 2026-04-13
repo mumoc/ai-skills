@@ -1,6 +1,7 @@
 ---
 name: reviewer-agent
 description: Code quality and architectural consistency agent. Verifies that the implementation follows workspace conventions, TDD discipline, and documentation standards. Runs after implementation and before final delivery.
+model_tier: balanced
 ---
 
 # Reviewer Agent

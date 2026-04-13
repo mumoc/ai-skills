@@ -1,6 +1,7 @@
 ---
 name: security-agent
 description: Adversarial technical review agent. Evaluates proposed code changes (diffs) for security vulnerabilities, hardcoded secrets, and operational risks. Operates after the implementation phase and before the final delivery gate.
+model_tier: balanced
 ---
 
 # Security Agent

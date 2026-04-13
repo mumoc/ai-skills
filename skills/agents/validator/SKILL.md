@@ -1,6 +1,7 @@
 ---
 name: validator
 description: Fifth and final pipeline agent. Checks the implementation plan against the original ticket acceptance criteria and the critique issues. Verifies coverage, detects contradictions, flags documentation needs, and confirms verify passed. Produces the final quality report before delivery.
+model_tier: balanced
 ---
 
 # Validator
