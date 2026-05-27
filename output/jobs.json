@@ -1,0 +1,98 @@
+{
+  "_meta": {
+    "extracted_at": "2026-05-26T12:00:00Z",
+    "schema_version": "1.0",
+    "query": "ruby on rails",
+    "sites": [
+      "linkedin"
+    ],
+    "total_postings": 4
+  },
+  "postings": [
+    {
+      "title": "Ruby on Rails Developer",
+      "company": "Divish Consulting",
+      "company_url": null,
+      "location": "Mountain View, CA",
+      "description": "Ruby on Rails Developer\nLocation - Mountainview, CA Hybrid\nType: W2\nNecessary Skills\u2022 Experience building GraphQL APIs for consumption by Single Page Applications\u2022 Experience working with Ruby on Rails\u2022 Expert in SQL, specifically Postgres\u2022 Passionate about user experience, and not shy to give your input\u2022 Comfortable working on a Mac and Linux based environments\u2022 Ability to thrive in a fast-paced environment - we ship code every week\u2022 Eagerness to learn new languages and technologies\u2022 Collaborative, positive attitude, and self-motivated\n\nShow more\n\nShow less\n\nSeniority level\n\nMid-Senior level\n\nEmployment type\n\nContract\n\nJob function\n\nInformation Technology\n\nIndustries\n\nTechnology, Information and Internet",
+      "salary_min": null,
+      "salary_max": null,
+      "currency": null,
+      "seniority": "mid",
+      "skills": [
+        "Ruby",
+        "Rails",
+        "SQL",
+        "GraphQL"
+      ],
+      "posted_date": "8 hours ago",
+      "application_deadline": null,
+      "source_url": "https://www.linkedin.com/jobs/view/ruby-on-rails-developer-at-divish-consulting-4418298012",
+      "source_site": "linkedin"
+    },
+    {
+      "title": "Sr. Ruby on Rails Engineer",
+      "company": "haku",
+      "company_url": null,
+      "location": "Miami, FL",
+      "description": "We are looking for a dynamic, high energy, self-starter, who lives and breathes customer service. This candidate will be ready to support both event organizers and their participants and answer any questions they may have.\n\nYOUR LIFE AT HAKU\u2028\n\nOur state of the art, stunning offices overlooking Biscayne Bay in Miami are home to a diverse, thoughtful, and dynamic group of passionate professionals. We love solving challenges, fostering strong relationships with our customers, creating innovative technology, and winning together as a team - we think you'll love it too.\n\nAs a Team Member, You'll Be Eligible To Benefit From:\n\n\u2022 Flexible PTO + paid holidays  \u2022 Top-quality benefits package (Health, Dental, Vision, STD, LTD, and Life Insurance)  \u2022 401k with employer matching (after 90 days)  \u2022 Hybrid work model  \u2022 Parental Leave: paid parental leave for birthing and non-birthing parents (after 1 year)  \u2022 Professional Development Reimbursement (after 6 months)  \u2022 Monthly credit towards wellness activities (gym, meal plans, mental health costs)  \u2022 Free access to wellness subscriptions, mental health and financial planning platforms  \u2022 Discounted rates for pet insurance and voluntary life insurance and exclusive employee discounts through Perkspot  \u2022 Company-paid parking in the heart of Brickell  \u2022 State-of-the-art Apple computer and accessories  \u2022 Wellness activities, happy hours, and company-wide fun events  \u2022 Top-of-the-line office facilities, including an on-site gym and wellness center, fully stocked kitchen, and more\n\nWhat You\u2019ll Do\n\n\u2022 Work collaboratively with small and nimble development teams on new features and product offerings  \u2022 Focus on developing elegant solutions to complex problems with the ability to express ideas and information in a concise, well-organized way to others  \u2022 Rapidly become an owner of significant features in the product - we like accountability and stewardship, and new engineers are quickly brought up to speed to make meaningful contributions to the platform  \u2022 Use best practices at every stage of the development cycle: emphasis on clean and maintainable code, good test coverage, peer code review, continuous integration, and rapid deployment\n\nWho You Are\n\n\u2022 You have 5+ years of experience in a software engineering role  \u2022 Experience with object-oriented / scripting languages (e.g. Ruby, Java, Python, JavaScript etc) and web application frameworks (e.g. Ruby on Rails, Node.js, Laravel, Django, etc...)  \u2022 Knowledgeable about and have experience in building internal and external APIs and RESTful web services  \u2022 Have good HTML, CSS, and JavaScript skills and are familiar with front-end frameworks like jQuery, React, Vue.js, or Angular.  \u2022 Able to work with a team to find creative solutions, release rapidly, and ship elegant, customer-centric applications  \u2022 Passionate about good design, solid test coverage, and quality code  \u2022 Comfortable taking ownership of the codebase; You work to continually improve code quality and get bugs fixed and deployed.  \u2022 Able to adapt to an agile team and love the process of continuous learning and improvement\n\nMore About Haku\n\nhaku is an all-in-one technology platform for event management, registration, fundraising, marketing, and participant engagement. Purpose-built for endurance events and nonprofit organizations, haku removes the frustration of rigid systems, limited insights, and manual processes by bringing everything together in one integrated solution.\n\nOur customers include some of the most recognized organizations in sports and philanthropy, such as the Marine Corps Marathon, the Philadelphia Eagles, the Bank of America Chicago Marathon, the Big Sur Marathon, Team in Training, the Colon Cancer Coalition, and many more.\n\nWe are proud to be a minority-owned business and an equal opportunity employer. We are committed to creating an inclusive workplace and providing equal employment opportunities regardless of race, color, ancestry, religion, sex, national origin, sexual orientation, age, citizenship, marital status, disability, gender identity, or veteran status. Our vision is to foster a work environment where everyone feels welcome and empowered to succeed.\n\nTo learn more about haku, visit www.hakuapp.com.\n\nFollow Us: LinkedIn, Instagram, Facebook, Twitter\n\nShow more\n\nShow less\n\nSeniority level\n\nMid-Senior level\n\nEmployment type\n\nFull-time\n\nJob function\n\nEngineering\n\nIndustries\n\nEvents Services",
+      "salary_min": null,
+      "salary_max": null,
+      "currency": null,
+      "seniority": "mid",
+      "skills": [
+        "Ruby",
+        "Rails",
+        "Python",
+        "Java",
+        "JavaScript",
+        "React",
+        "Node.js",
+        "Node",
+        "Agile"
+      ],
+      "posted_date": "1 month ago",
+      "application_deadline": null,
+      "source_url": "https://www.linkedin.com/jobs/view/sr-ruby-on-rails-engineer-at-haku-4402031618",
+      "source_site": "linkedin"
+    },
+    {
+      "title": "Ruby on Rails Engineer",
+      "company": "Nebo Agency",
+      "company_url": null,
+      "location": "Atlanta, GA",
+      "description": "Simply put: Nebo\u2019s Engineering team gets things done. We are responsible for taking our clients\u2019 visions and making them a working reality. We\u2019re looking for passionate, driven teammates to help us build the future of digital marketing!\n\nAbout Nebo:\n\nNebo is a human-centered agency built on a culture of respect, professional growth and care for every employee. With numerous perks, including hybrid in-office/remote work or fully remote work options designed to fit your needs, unlimited PTO, and free attendance to local marketing events, join this fun-loving team that occasionally talks Slack Smack.\n\nAbout the Position:\n\nAs a Ruby on Rails Engineer, you\u2019d be joining our Back-End Engineering team, which performs a variety of tasks, including:\n\n\u2022 Participating in project planning and tactical direction   \u2022 Working with and developing CMS back-ends Maintenance and feature development for existing web applications/websites   \u2022 Building complex web applications either from scratch or within existing frameworks   \u2022 Building internal tools to help support other Nebo departments\n\nHere are some of the technologies we use on a daily basis:\n\n\u2022 Ruby / Rails  \u2022 PHP  \u2022 Postgres and MySQL  \u2022 Git / GitLab  \u2022 Nebo CMS (our in-house Content Management System built and maintained by our team!)\n\nSkills Required: \n\n\u2022 2-3+ years of back-end web development experience   \u2022 1-2+ years of Ruby on Rails coding experience   \u2022 Experience with PHP  \u2022 Experience using version control to manage coding projects   \u2022 A solid portfolio demonstrating back-end web application/website development capability   \u2022 Written and verbal communication skills   \u2022 Bachelors degree or higher\n\nThe things that will set you apart (AKA Bonus Skills): \n\n\u2022 Experience with HTML, CSS, JavaScript   \u2022 Experience QAing web applications   \u2022 Strong database design skills  \u2022 Knowledge of SEO best practices\n\nNebo's Commitment to Diversity &amp; Inclusion\n\nAs a human-centered agency, we believe in uplifting our community and advancing society through inclusive business practices. We're dedicated to providing equal opportunities and equal access to all individuals regardless of race, color, religion, ethnic or national origin, gender, genetic information, age, disability, sexual orientation, gender identity, gender expression, and veteran\u2019s status.\n\nPowered by JazzHR\n\nTSOCB8hXpD\n\nShow more\n\nShow less\n\nSeniority level\n\nMid-Senior level\n\nEmployment type\n\nFull-time\n\nJob function\n\nEngineering and Information Technology\n\nIndustries\n\nInternet Publishing",
+      "salary_min": null,
+      "salary_max": null,
+      "currency": null,
+      "seniority": "mid",
+      "skills": [
+        "Ruby",
+        "Rails",
+        "JavaScript",
+        "MySQL",
+        "Git"
+      ],
+      "posted_date": "2 years ago",
+      "application_deadline": null,
+      "source_url": "https://www.linkedin.com/jobs/view/ruby-on-rails-engineer-at-nebo-agency-3787766670",
+      "source_site": "linkedin"
+    },
+    {
+      "title": "Staff Engineer, Composer Platform",
+      "company": "Finalsite",
+      "company_url": null,
+      "location": "United States",
+      "description": null,
+      "salary_min": 130000,
+      "salary_max": 190000,
+      "currency": "USD",
+      "seniority": "senior",
+      "skills": [],
+      "posted_date": null,
+      "application_deadline": null,
+      "source_url": "https://www.linkedin.com/jobs/view/4416043178",
+      "source_site": "linkedin"
+    }
+  ]
+}

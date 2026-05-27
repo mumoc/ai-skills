@@ -8,12 +8,8 @@ Portable AI Agent configuration. Skills are grouped by **flow** — the sequence
 |---|---|
 | `engineering-workflow/` | Ticket pipeline: setup → orchestrator → gates → agents → verify |
 | `planning/` | Initiative-to-ticket planning → Jira creation |
+| `job-posting-extractor/` | Scrape job boards and career pages → structured JSON |
 | `AGENTS.md` | Cross-project rules, conventions, design principles |
-| `SKILL.md` | Root entry-point coordinator |
-| `agents.json` | Agent registry for tool discovery |
-| `tile.json` | Canonical skill/agent inventory |
-| `CLAUDE.md` | Symlink → `AGENTS.md` (Claude Code) |
-| `GEMINI.md` | Symlink → `AGENTS.md` (Gemini CLI) |
 
 ## Setup on a new machine
 
@@ -24,12 +20,12 @@ ln -sf "$PWD"/AGENTS.md ~/.claude/CLAUDE.md
 ln -sf "$PWD"/AGENTS.md ~/.gemini/GEMINI.md
 ```
 
-## Adding a new skill
+## Adding a new flow
 
-1. Identify which **flow** it belongs to (or create a new flow directory).
-2. Create `{flow}/{skill-name}/SKILL.md` with frontmatter and instructions.
-3. Add `references/` files if needed.
-4. Register in `tile.json` under the appropriate flow.
+1. Create `{flow-name}/` at the project root.
+2. Add skill directories inside it, each with a `SKILL.md`.
+3. Add a `references/` directory for shared schemas or patterns.
+4. Update this table.
 
 ## Per-project setup
 
